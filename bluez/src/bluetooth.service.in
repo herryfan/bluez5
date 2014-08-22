@@ -1,14 +1,16 @@
 [Unit]
 Description=Bluetooth service
 Documentation=man:bluetoothd(8)
+After=connman.service
+ConditionPathExists=!/run/systemd/boot-status/ACT_DEAD
 
 [Service]
 Type=dbus
 BusName=org.bluez
-ExecStart=@libexecdir@/bluetoothd
+ExecStart=@libexecdir@/bluetoothd -n
 NotifyAccess=main
 #WatchdogSec=10
-#Restart=on-failure
+Restart=on-failure
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 LimitNPROC=1
 
