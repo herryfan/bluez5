@@ -30,6 +30,8 @@ include_HEADERS =
 AM_CFLAGS = $(WARNING_CFLAGS) $(MISC_CFLAGS)
 AM_LDFLAGS = $(MISC_LDFLAGS)
 
+CFLAGS += $(OPT_CFLAGS)
+
 if DATAFILES
 dbusdir = @DBUS_CONFDIR@/dbus-1/system.d
 dbus_DATA = src/bluetooth.conf
