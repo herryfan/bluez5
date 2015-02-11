@@ -153,7 +153,8 @@ Will enable tracing for BlueZ
     --enable-jolla-did \
     --enable-jolla-logcontrol \
     --with-phonebook=sailfish \
-    --with-contentfilter=helperapp
+    --with-contentfilter=helperapp \
+    --enable-jolla-blacklist
 
 make %{?jobs:-j%jobs}
 
