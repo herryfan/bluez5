@@ -13,6 +13,7 @@ URL:        http://www.bluez.org/
 Source0:    http://www.kernel.org/pub/linux/bluetooth/%{name}-%{version}.tar.gz
 Source1:    obexd-wrapper
 Source2:    obexd.conf
+Source3:    bluez.tracing
 Requires:   bluez-configs
 Requires:   dbus >= 0.60
 Requires:   hwdata >= 0.215
@@ -114,6 +115,14 @@ Requires:   obexd-server = %{version}-%{release}
 %description -n obexd-tools
 %{summary}.
 
+%package tracing
+Summary:    Configuration for bluez to enable tracing
+Group:      Development/Tools
+Requires:   %{name} = %{version}-%{release}
+
+%description tracing
+Will enable tracing for BlueZ
+
 %prep
 %setup -q -n %{name}-%{version}/%{name}
 
@@ -170,6 +179,9 @@ install -d -m 0755 $RPM_BUILD_ROOT/%{_localstatedir}/lib/bluetooth
 for CONFFILE in profiles/input/input.conf profiles/network/network.conf profiles/proximity/proximity.conf src/main.conf ; do
 install -v -m644 ${CONFFILE} ${RPM_BUILD_ROOT}%{_sysconfdir}/bluetooth/`basename ${CONFFILE}`
 done
+
+mkdir -p %{buildroot}%{_sysconfdir}/tracing/bluez/
+cp -a %{SOURCE3} %{buildroot}%{_sysconfdir}/tracing/bluez/
 
 # obexd systemd/D-Bus integration
 (cd $RPM_BUILD_ROOT/%{_libdir}/systemd/user && ln -s obex.service dbus-org.bluez.obex.service)
@@ -323,3 +335,7 @@ systemctl-user daemon-reload ||:
 # %{_bindir}/obexctl
 # << files -n obexd-tools
 
+%files tracing
+%defattr(-,root,root,-)
+%dir %{_sysconfdir}/tracing/bluez
+%config %{_sysconfdir}/tracing/bluez/bluez.tracing
