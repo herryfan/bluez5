@@ -150,7 +150,8 @@ Will enable tracing for BlueZ
     --with-systemdsystemunitdir=/lib/systemd/system \
     --with-systemduserunitdir=/usr/lib/systemd/user \
     --enable-jolla-dbus-access \
-    --enable-jolla-did
+    --enable-jolla-did \
+    --enable-jolla-logcontrol
 
 make %{?jobs:-j%jobs}
 
