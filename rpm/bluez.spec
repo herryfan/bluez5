@@ -33,6 +33,8 @@ BuildRequires:  bison
 BuildRequires:  flex
 BuildRequires:  readline-devel
 BuildRequires:  pkgconfig(libical)
+Obsoletes: bluez-alsa
+Obsoletes: bluez-gstreamer
 
 %description
 %{summary}.
@@ -105,6 +107,7 @@ Summary:    OBEX server
 Group:      System/Daemons
 Requires:   %{name} = %{version}-%{release}
 Requires:   obex-capability
+Obsoletes:  obexd
 %description -n obexd-server
 %{summary}.
 
