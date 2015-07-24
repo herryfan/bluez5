@@ -1,4 +1,4 @@
-Name:       bluez
+Name:       bluez5
 
 # >> macros
 %define _system_groupadd() getent group %{1} >/dev/null || groupadd -g 1002 %{1}
@@ -33,6 +33,7 @@ BuildRequires:  bison
 BuildRequires:  flex
 BuildRequires:  readline-devel
 BuildRequires:  pkgconfig(libical)
+Obsoletes: bluez
 Obsoletes: bluez-alsa
 Obsoletes: bluez-gstreamer
 
@@ -43,7 +44,8 @@ Obsoletes: bluez-gstreamer
 Summary:    Bluetooth default configuration
 Group:      Applications/System
 Requires:   %{name} = %{version}-%{release}
-Provides:   bluez-configs
+Provides:   bluez5-configs
+Obsoletes:  bluez-configs-mer
 %description configs-mer
 %{summary}.
 
@@ -53,6 +55,7 @@ Group:      System/Daemons
 Requires:   %{name} = %{version}-%{release}
 Requires:   bluez-libs = %{version}
 Requires:   cups
+Obsoletes:  bluez-cups
 %description cups
 %{summary}.
 
@@ -60,6 +63,7 @@ Requires:   cups
 Summary:    Bluetooth daemon documentation
 Group:      Documentation
 Requires:   %{name} = %{version}-%{release}
+Obsoletes:  bluez-doc
 %description doc
 %{summary}.
 
@@ -67,6 +71,7 @@ Requires:   %{name} = %{version}-%{release}
 Summary:    Bluetooth packet analyzer
 Group:      Applications/System
 Requires:   %{name} = %{version}-%{release}
+Obsoletes:  bluez-hcidump
 %description hcidump
 %{summary}.
 
@@ -75,6 +80,7 @@ Summary:    Bluetooth library
 Group:      System/Libraries
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+Obsoletes:  bluez-libs
 %description libs
 %{summary}.
 
@@ -82,6 +88,7 @@ Requires(postun): /sbin/ldconfig
 Summary:    Bluetooth library development package
 Group:      Development/Libraries
 Requires:   bluez-libs = %{version}
+Obsoletes:  bluez-libs-devel
 %description libs-devel
 %{summary}.
 
@@ -92,6 +99,7 @@ Requires:   %{name} = %{version}-%{release}
 Requires:   bluez-libs = %{version}
 Requires:   dbus-python
 Requires:   pygobject2 >= 3.10.2
+Obsoletes:  bluez-test
 %description test
 %{summary}.
 
@@ -102,27 +110,28 @@ Requires:   %{name} = %{version}-%{release}
 %description tools
 %{summary}.
 
-%package -n obexd-server
+%package obexd
 Summary:    OBEX server
 Group:      System/Daemons
 Requires:   %{name} = %{version}-%{release}
 Requires:   obex-capability
 Obsoletes:  obexd
-%description -n obexd-server
+Obsoletes:  obexd-server
+%description obexd
 %{summary}.
 
-%package -n obexd-tools
+%package obexd-tools
 Summary:    Command line tools for OBEX
 Group:      Applications/System
 Requires:   obexd-server = %{version}-%{release}
-%description -n obexd-tools
+%description obexd-tools
 %{summary}.
 
 %package tracing
 Summary:    Configuration for bluez to enable tracing
 Group:      Development/Tools
 Requires:   %{name} = %{version}-%{release}
-
+Obsoletes:  bluez-tracing
 %description tracing
 Will enable tracing for BlueZ
 
@@ -227,16 +236,16 @@ systemctl daemon-reload ||:
 
 %postun libs -p /sbin/ldconfig
 
-%preun -n obexd-server
+%preun obexd
 if [ "$1" -eq 0 ]; then
 systemctl-user stop obex.service ||:
 fi
 
-%post -n obexd-server
+%post obexd
 systemctl-user daemon-reload ||:
 systemctl-user reload-or-try-restart obex.service ||:
 
-%postun -n obexd-server
+%postun obexd
 systemctl-user daemon-reload ||:
 
 %files
@@ -321,9 +330,9 @@ systemctl-user daemon-reload ||:
 /%{_lib}/udev/rules.d/97-hid2hci.rules
 # << files tools
 
-%files -n obexd-server
+%files obexd
 %defattr(-,root,root,-)
-# >> files -n obexd-server
+# >> files obexd
 %config %{_sysconfdir}/obexd.conf
 %dir %{_sysconfdir}/obexd/
 %dir %{_sysconfdir}/obexd/plugins/
@@ -333,15 +342,15 @@ systemctl-user daemon-reload ||:
 %{_datadir}/dbus-1/services/org.bluez.obex.service
 %{_libdir}/systemd/user/obex.service
 %{_libdir}/systemd/user/dbus-org.bluez.obex.service
-# << files -n obexd-server
+# << files obexd
 
-%files -n obexd-tools
+%files obexd-tools
 %defattr(-,root,root,-)
-# >> files -n obexd-tools
+# >> files obexd-tools
 # %{_bindir}/obex-client-tool
 # %{_bindir}/obex-server-tool
 # %{_bindir}/obexctl
-# << files -n obexd-tools
+# << files obexd-tools
 
 %files tracing
 %defattr(-,root,root,-)
