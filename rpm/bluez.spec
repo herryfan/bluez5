@@ -14,7 +14,7 @@ Source0:    http://www.kernel.org/pub/linux/bluetooth/%{name}-%{version}.tar.gz
 Source1:    obexd-wrapper
 Source2:    obexd.conf
 Source3:    bluez.tracing
-Requires:   bluez-configs
+Requires:   bluez5-configs
 Requires:   dbus >= 0.60
 Requires:   hwdata >= 0.215
 Requires:   systemd
@@ -53,7 +53,7 @@ Obsoletes:  bluez-configs-mer
 Summary:    Bluetooth CUPS support
 Group:      System/Daemons
 Requires:   %{name} = %{version}-%{release}
-Requires:   bluez-libs = %{version}
+Requires:   bluez5-libs = %{version}
 Requires:   cups
 Obsoletes:  bluez-cups
 %description cups
@@ -87,7 +87,7 @@ Obsoletes:  bluez-libs
 %package libs-devel
 Summary:    Bluetooth library development package
 Group:      Development/Libraries
-Requires:   bluez-libs = %{version}
+Requires:   bluez5-libs = %{version}
 Obsoletes:  bluez-libs-devel
 %description libs-devel
 %{summary}.
@@ -96,7 +96,7 @@ Obsoletes:  bluez-libs-devel
 Summary:    Test utilities for Bluetooth
 Group:      Development/Tools
 Requires:   %{name} = %{version}-%{release}
-Requires:   bluez-libs = %{version}
+Requires:   bluez5-libs = %{version}
 Requires:   dbus-python
 Requires:   pygobject2 >= 3.10.2
 Obsoletes:  bluez-test
@@ -114,6 +114,7 @@ Requires:   %{name} = %{version}-%{release}
 Summary:    OBEX server
 Group:      System/Daemons
 Requires:   %{name} = %{version}-%{release}
+Requires:   bluez5-obexd-configs
 Requires:   obex-capability
 Obsoletes:  obexd
 Obsoletes:  obexd-server
