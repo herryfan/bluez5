@@ -249,11 +249,12 @@ if EXPERIMENTAL
 noinst_PROGRAMS += tools/bdaddr tools/avinfo tools/avtest \
 			tools/scotest tools/amptest tools/hwdb \
 			tools/hcieventmask tools/hcisecfilter \
-			tools/btmgmt tools/btinfo tools/btattach \
+			tools/btinfo tools/btattach \
 			tools/btsnoop tools/btproxy \
 			tools/btiotest tools/bneptest tools/mcaptest \
 			tools/cltest tools/oobtest tools/seq2bseq \
-			tools/nokfw tools/create-image tools/ibeacon \
+			tools/nokfw tools/create-image \
+			tools/eddystone tools/ibeacon \
 			tools/btgatt-client tools/btgatt-server \
 			tools/test-runner tools/check-selftest
 
@@ -271,10 +272,6 @@ tools_amptest_LDADD = lib/libbluetooth-internal.la
 tools_hwdb_LDADD = lib/libbluetooth-internal.la
 
 tools_hcieventmask_LDADD = lib/libbluetooth-internal.la
-
-tools_btmgmt_SOURCES = tools/btmgmt.c src/uuid-helper.c client/display.c
-tools_btmgmt_LDADD = lib/libbluetooth-internal.la src/libshared-mainloop.la \
-				-lreadline
 
 tools_btinfo_SOURCES = tools/btinfo.c monitor/bt.h
 tools_btinfo_LDADD = src/libshared-mainloop.la
@@ -315,6 +312,9 @@ tools_nokfw_SOURCES = tools/nokfw.c
 
 tools_create_image_SOURCES = tools/create-image.c
 
+tools_eddystone_SOURCES = tools/eddystone.c monitor/bt.h
+tools_eddystone_LDADD = src/libshared-mainloop.la
+
 tools_ibeacon_SOURCES = tools/ibeacon.c monitor/bt.h
 tools_ibeacon_LDADD = src/libshared-mainloop.la
 
@@ -330,7 +330,7 @@ EXTRA_DIST += tools/bdaddr.1
 endif
 
 if READLINE
-noinst_PROGRAMS += attrib/gatttool \
+noinst_PROGRAMS += attrib/gatttool tools/btmgmt \
 			tools/obex-client-tool tools/obex-server-tool \
 			tools/bluetooth-player tools/obexctl
 
@@ -360,6 +360,10 @@ tools_obexctl_SOURCES = tools/obexctl.c \
 				client/display.h client/display.c
 tools_obexctl_LDADD = gdbus/libgdbus-internal.la \
 				@GLIB_LIBS@ @DBUS_LIBS@ -lreadline
+
+tools_btmgmt_SOURCES = tools/btmgmt.c src/uuid-helper.c client/display.c
+tools_btmgmt_LDADD = lib/libbluetooth-internal.la src/libshared-mainloop.la \
+				-lreadline
 endif
 
 if EXPERIMENTAL
