@@ -32,10 +32,12 @@ AC_DEFUN([COMPILER_FLAGS], [
 AC_DEFUN([MISC_FLAGS], [
 	misc_cflags=""
 	misc_ldflags=""
+	opt_cflags=""
+
 	AC_ARG_ENABLE(optimization, AC_HELP_STRING([--disable-optimization],
 			[disable code optimization through compiler]), [
 		if (test "${enableval}" = "no"); then
-			misc_cflags="$misc_cflags -O0"
+			opt_cflags="$opt_cflags -O0"
 		fi
 	])
 	AC_ARG_ENABLE(debug, AC_HELP_STRING([--enable-debug],
@@ -59,12 +61,6 @@ AC_DEFUN([MISC_FLAGS], [
 	fi
 	AC_SUBST([MISC_CFLAGS], $misc_cflags)
 	AC_SUBST([MISC_LDFLAGS], $misc_ldflags)
-
-	opt_cflags=""
-	if (test "${optimization_enable}" = "no"); then
-		opt_cflags="$opt_cflags -O0"
-	fi
-
 	AC_SUBST([OPT_CFLAGS], $opt_cflags)
 
 ])
