@@ -33,9 +33,9 @@ BuildRequires:  bison
 BuildRequires:  flex
 BuildRequires:  readline-devel
 BuildRequires:  pkgconfig(libical)
-Obsoletes: bluez
-Obsoletes: bluez-alsa
-Obsoletes: bluez-gstreamer
+Conflicts: bluez
+Conflicts: bluez-alsa
+Conflicts: bluez-gstreamer
 
 %description
 %{summary}.
@@ -45,7 +45,7 @@ Summary:    Bluetooth default configuration
 Group:      Applications/System
 Requires:   %{name} = %{version}-%{release}
 Provides:   bluez5-configs
-Obsoletes:  bluez-configs-mer
+Conflicts:  bluez-configs-mer
 %description configs-mer
 %{summary}.
 
@@ -55,7 +55,7 @@ Group:      System/Daemons
 Requires:   %{name} = %{version}-%{release}
 Requires:   bluez5-libs = %{version}
 Requires:   cups
-Obsoletes:  bluez-cups
+Conflicts:  bluez-cups
 %description cups
 %{summary}.
 
@@ -63,7 +63,7 @@ Obsoletes:  bluez-cups
 Summary:    Bluetooth daemon documentation
 Group:      Documentation
 Requires:   %{name} = %{version}-%{release}
-Obsoletes:  bluez-doc
+Conflicts:  bluez-doc
 %description doc
 %{summary}.
 
@@ -71,7 +71,7 @@ Obsoletes:  bluez-doc
 Summary:    Bluetooth packet analyzer
 Group:      Applications/System
 Requires:   %{name} = %{version}-%{release}
-Obsoletes:  bluez-hcidump
+Conflicts:  bluez-hcidump
 %description hcidump
 %{summary}.
 
@@ -80,7 +80,7 @@ Summary:    Bluetooth library
 Group:      System/Libraries
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
-Obsoletes:  bluez-libs
+Conflicts:  bluez-libs
 %description libs
 %{summary}.
 
@@ -88,7 +88,7 @@ Obsoletes:  bluez-libs
 Summary:    Bluetooth library development package
 Group:      Development/Libraries
 Requires:   bluez5-libs = %{version}
-Obsoletes:  bluez-libs-devel
+Conflicts:  bluez-libs-devel
 %description libs-devel
 %{summary}.
 
@@ -99,7 +99,7 @@ Requires:   %{name} = %{version}-%{release}
 Requires:   bluez5-libs = %{version}
 Requires:   dbus-python
 Requires:   pygobject2 >= 3.10.2
-Obsoletes:  bluez-test
+Conflicts:  bluez-test
 %description test
 %{summary}.
 
@@ -116,8 +116,8 @@ Group:      System/Daemons
 Requires:   %{name} = %{version}-%{release}
 Requires:   bluez5-obexd-configs
 Requires:   obex-capability
-Obsoletes:  obexd
-Obsoletes:  obexd-server
+Conflicts:  obexd
+Conflicts:  obexd-server
 %description obexd
 %{summary}.
 
@@ -132,7 +132,7 @@ Requires:   obexd-server = %{version}-%{release}
 Summary:    Configuration for bluez to enable tracing
 Group:      Development/Tools
 Requires:   %{name} = %{version}-%{release}
-Obsoletes:  bluez-tracing
+Conflicts:  bluez-tracing
 %description tracing
 Will enable tracing for BlueZ
 
@@ -168,7 +168,7 @@ Will enable tracing for BlueZ
     --with-phonebook=sailfish \
     --with-contentfilter=helperapp \
     --enable-jolla-blacklist \
-    --enable-experimental --enable-debug --disable-optimization
+    --enable-experimental
 
 make %{?jobs:-j%jobs}
 
