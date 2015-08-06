@@ -971,6 +971,11 @@ static void discover_primary_cb(bool success, uint8_t att_ecode,
 		util_debug(client->debug_callback, client->debug_data,
 					"Primary service discovery failed."
 					" ATT ECODE: 0x%02x", att_ecode);
+		/* Reset error in case of not found */
+		if (BT_ATT_ERROR_ATTRIBUTE_NOT_FOUND) {
+			success = true;
+			att_ecode = 0;
+		}
 		goto secondary;
 	}
 
@@ -1066,6 +1071,15 @@ static void exchange_mtu_cb(bool success, uint8_t att_ecode, void *user_data)
 				"MTU Exchange failed. ATT ECODE: 0x%02x",
 				att_ecode);
 
+		/*
+		 * BLUETOOTH SPECIFICATION Version 4.2 [Vol 3, Part G] page 546
+		 * If the Error Response is sent by the server with the Error
+		 * Code set to RequestNot Supported , the Attribute Opcode is
+		 * not supported and the default MTU shall be used.
+		 */
+		if (att_ecode == BT_ATT_ERROR_REQUEST_NOT_SUPPORTED)
+			goto discover;
+
 		client->in_init = false;
 		notify_client_ready(client, success, att_ecode);
 
@@ -1076,6 +1090,7 @@ static void exchange_mtu_cb(bool success, uint8_t att_ecode, void *user_data)
 					"MTU exchange complete, with MTU: %u",
 					bt_att_get_mtu(client->att));
 
+discover:
 	client->discovery_req = bt_gatt_discover_all_primary_services(
 							client->att, NULL,
 							discover_primary_cb,

@@ -3665,6 +3665,24 @@ static const struct generic_data add_device_fail_3 = {
 	.expect_status = MGMT_STATUS_INVALID_PARAMS,
 };
 
+static const uint8_t add_device_nval_4[] = {
+					0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc,
+					0x02,
+					0x02,
+};
+static const uint8_t add_device_rsp_4[] =  {
+					0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc,
+					0x02,
+};
+static const struct generic_data add_device_fail_4 = {
+	.send_opcode = MGMT_OP_ADD_DEVICE,
+	.send_param = add_device_nval_4,
+	.send_len = sizeof(add_device_nval_4),
+	.expect_param = add_device_rsp_4,
+	.expect_len = sizeof(add_device_rsp_4),
+	.expect_status = MGMT_STATUS_INVALID_PARAMS,
+};
+
 static const uint8_t add_device_success_param_1[] = {
 					0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc,
 					0x00,
@@ -3776,6 +3794,19 @@ static const struct generic_data remove_device_fail_2 = {
 	.send_len = sizeof(remove_device_param_1),
 	.expect_param = remove_device_param_1,
 	.expect_len = sizeof(remove_device_param_1),
+	.expect_status = MGMT_STATUS_INVALID_PARAMS,
+};
+
+static const uint8_t remove_device_param_3[] = {
+					0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc,
+					0x02,
+};
+static const struct generic_data remove_device_fail_3 = {
+	.send_opcode = MGMT_OP_REMOVE_DEVICE,
+	.send_param = remove_device_param_3,
+	.send_len = sizeof(remove_device_param_3),
+	.expect_param = remove_device_param_3,
+	.expect_len = sizeof(remove_device_param_3),
 	.expect_status = MGMT_STATUS_INVALID_PARAMS,
 };
 
@@ -6696,6 +6727,9 @@ int main(int argc, char *argv[])
 	test_bredrle("Add Device - Invalid Params 3",
 				&add_device_fail_3,
 				NULL, test_command_generic);
+	test_bredrle("Add Device - Invalid Params 4",
+				&add_device_fail_4,
+				NULL, test_command_generic);
 	test_bredrle("Add Device - Success 1",
 				&add_device_success_1,
 				NULL, test_command_generic);
@@ -6717,6 +6751,9 @@ int main(int argc, char *argv[])
 				NULL, test_command_generic);
 	test_bredrle("Remove Device - Invalid Params 2",
 				&remove_device_fail_2,
+				NULL, test_command_generic);
+	test_bredrle("Remove Device - Invalid Params 3",
+				&remove_device_fail_3,
 				NULL, test_command_generic);
 	test_bredrle("Remove Device - Success 1",
 				&remove_device_success_1,
